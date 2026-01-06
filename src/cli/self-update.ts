@@ -14,7 +14,7 @@ type UpdateCommand = { bin: string; args: string[]; pretty: string };
 
 function getRepoRoot(): string {
   const currentFile = fileURLToPath(import.meta.url);
-  return dirname(dirname(currentFile));
+  return dirname(dirname(dirname(currentFile)));
 }
 
 function detectLocalInstallCommand(): string {
