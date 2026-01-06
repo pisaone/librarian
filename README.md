@@ -5,7 +5,27 @@ Use it to give AI agents real context so they stop guessing and writing bad code
 
 Supports GitHub repos and public websites.
 
-## Quick start
+## Install
+
+npm
+```bash
+npm i -g @iannuttall/librarian
+```
+```bash
+librarian setup
+```
+
+bun
+```bash
+bun add -g @iannuttall/librarian
+```
+```bash
+librarian setup
+```
+
+Note: npm installs still require Bun at runtime; the CLI will prompt you to install it if missing.
+
+## Quick start (from repo)
 
 ```bash
 bun install
@@ -43,41 +63,53 @@ librarian search --library honojs/website "middleware"
 ### GitHub repos
 ```bash
 librarian add https://github.com/owner/repo --docs docs --ref main
+```
+```bash
 librarian add https://github.com/owner/repo --version 16.x
 ```
 
 ### Websites
+Basic - auto-discovers via llms.txt, sitemap.xml, robots.txt
 ```bash
-# Basic - auto-discovers via llms.txt, sitemap.xml, robots.txt
 librarian add https://docs.example.com
+```
 
-# With options
+With options
+```bash
 librarian add https://docs.example.com/api --depth 3 --pages 500
+```
 
-# Specific paths
+Specific paths
+```bash
 librarian add https://example.com --allow /docs,/api --deny /blog
 ```
 
 ## Ingest
 
+Ingest all sources
 ```bash
-# Ingest all sources
 librarian ingest
+```
 
-# Ingest with concurrency (default: 5)
+Ingest with concurrency (default: 5)
+```bash
 librarian ingest --concurrency 10
+```
 
-# Force re-ingest
+Force re-ingest
+```bash
 librarian ingest --force
+```
 
-# Ingest and embed
+Ingest and embed
+```bash
 librarian ingest --embed
 ```
 
 ## Seed sources
 
+Add the built-in seed list and auto-ingest
 ```bash
-# Add the built-in seed list and auto-ingest
 librarian seed
 ```
 
@@ -85,20 +117,28 @@ The default seed list lives in `data/libraries.yml` in this repo.
 
 ## Search
 
+Hybrid search (word + meaning)
 ```bash
-# Hybrid search (word + meaning)
 librarian search --library vercel/next.js "middleware"
+```
 
-# Word search only
+Word search only
+```bash
 librarian search --library vercel/next.js --mode word "middleware"
+```
 
-# Meaning search only
+Meaning search only
+```bash
 librarian search --library vercel/next.js --mode vector "middleware"
+```
 
-# JSON output
+JSON output
+```bash
 librarian search --library vercel/next.js --json "middleware"
+```
 
-# Filter by version
+Filter by version
+```bash
 librarian search --library vercel/next.js --version 16.x "middleware"
 ```
 
@@ -110,28 +150,57 @@ Then pass the label to search. If you are not in a repo, run a library search fi
 
 ## Library search
 
+Find a library and list versions
 ```bash
-# Find a library and list versions
 librarian library "nextjs"
 ```
 
 ## Other commands
 
+List sources
 ```bash
-librarian source list          # List sources
-librarian source remove 1      # Remove source
-librarian seed                 # Add sources from the seed list
-librarian get --library vercel/next.js docs/guide.md          # Read a doc
-librarian get --library vercel/next.js --doc 69 --slice 19:73 # Read a slice
-librarian status               # Show counts
-librarian detect               # Detect versions in cwd
-librarian cleanup              # Remove inactive docs
+librarian source list
+```
+
+Remove source
+```bash
+librarian source remove 1
+```
+
+Add sources from the seed list
+```bash
+librarian seed
+```
+
+Read a doc
+```bash
+librarian get --library vercel/next.js docs/guide.md
+```
+
+Read a slice
+```bash
+librarian get --library vercel/next.js --doc 69 --slice 19:73
+```
+
+Show counts
+```bash
+librarian status
+```
+
+Detect versions in cwd
+```bash
+librarian detect
+```
+
+Remove inactive docs
+```bash
+librarian cleanup
 ```
 
 ## MCP server
 
+Start the MCP server (stdio)
 ```bash
-# Start the MCP server (stdio)
 librarian mcp
 ```
 
@@ -170,7 +239,7 @@ ingest:
 - Website crawling auto-detects CSR/SPA sites and uses headless Chrome
 - Chrome is auto-detected but can be configured manually
 - Run `librarian setup` to check Chrome availability
-- If `librarian` does not work, use `./librarian`
+- If `librarian` does not work in a repo checkout, use `./librarian`
 - More examples in `docs/usage.md`
 
 ## Agent skills
@@ -181,6 +250,8 @@ Skills use progressive disclosure, so only the skill name and description load a
 
 ```bash
 mkdir -p ~/.codex/skills
+```
+```bash
 cp -R skills/librarian ~/.codex/skills/librarian
 ```
 
@@ -192,6 +263,8 @@ cp -R skills/librarian ~/.codex/skills/librarian
 
 ```bash
 mkdir -p ~/.claude/skills
+```
+```bash
 cp -R skills/librarian ~/.claude/skills/librarian
 ```
 
@@ -200,5 +273,7 @@ cp -R skills/librarian ~/.claude/skills/librarian
 
 ```bash
 mkdir -p ~/.factory/skills
+```
+```bash
 cp -R skills/librarian ~/.factory/skills/librarian
 ```
