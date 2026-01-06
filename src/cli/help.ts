@@ -8,10 +8,11 @@ export function printHelp(advanced: boolean): void {
   console.log("");
   console.log("Commands:");
   console.log("  setup                       Guided setup");
+  console.log("  version                     Print version");
+  console.log("  update                      Update Librarian");
   console.log("  add <url>                   Add a source (GitHub or web URL)");
   console.log("  ingest                      Ingest sources");
   console.log(`  ingest --concurrency N      Ingest with N concurrent requests (default: ${DEFAULT_INGEST_CONCURRENCY})`);
-  console.log("  update                      Update sources (same as ingest)");
   console.log("  detect                      Detect package versions in cwd");
   console.log("  library <query>             Find a library and list versions");
   console.log("  search --library <name|id> <query>");

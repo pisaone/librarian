@@ -25,6 +25,25 @@ librarian setup
 
 Note: npm installs still require Bun at runtime; the CLI will prompt you to install it if missing.
 
+Install Bun (optional):
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+## Updates
+
+Check your current version
+```bash
+librarian version
+```
+
+Update (auto-detects bun vs npm)
+```bash
+librarian update
+```
+
+Librarian also checks for updates once per day when you run any command and will suggest the right update command.
+
 ## Quick start (from repo)
 
 ```bash
@@ -190,6 +209,11 @@ librarian status
 Detect versions in cwd
 ```bash
 librarian detect
+```
+
+Update Librarian
+```bash
+librarian update
 ```
 
 Remove inactive docs

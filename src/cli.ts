@@ -14,6 +14,7 @@ import { cmdDb } from "./cli/db";
 import { cmdReset } from "./cli/reset";
 import { cmdSeed } from "./cli/seed";
 import { runMcpServer } from "./mcp";
+import { cmdUpdate, cmdVersion, maybeCheckForUpdate } from "./cli/self-update";
 
 const argv = process.argv.slice(2);
 
@@ -25,11 +26,21 @@ if (!command || command === "--help" || command === "-h" || command === "help") 
   process.exit(0);
 }
 
+if (command === "--version" || command === "-v") {
+  cmdVersion();
+  process.exit(0);
+}
+
 if (command === "mcp") {
   await runMcpServer();
 } else if (command === "reset") {
   await cmdReset(argv.slice(1));
+} else if (command === "version") {
+  cmdVersion();
+} else if (command === "update") {
+  await cmdUpdate();
 } else {
+  await maybeCheckForUpdate(command, argv.slice(1));
   const store = await createStore();
   try {
     switch (command) {
@@ -49,9 +60,6 @@ if (command === "mcp") {
         await cmdAdd(store, argv.slice(1));
         break;
       case "ingest":
-        await cmdIngest(store, argv.slice(1));
-        break;
-      case "update":
         await cmdIngest(store, argv.slice(1));
         break;
       case "detect":
