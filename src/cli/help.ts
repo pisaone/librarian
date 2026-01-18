@@ -54,6 +54,8 @@ export function printHelp(advanced: boolean): void {
   console.log("  --pages <n>                 Max pages to crawl (default: 500)");
   console.log("  --allow <paths>             Comma-separated allowed paths");
   console.log("  --deny <paths>              Comma-separated denied paths");
+  console.log("  --force-headless            Force headless Chrome (for SPA/JS sites)");
+  console.log("  --no-code-required          Allow pages without code snippets");
   console.log("  ingest --source id          Ingest a single source");
   console.log("  ingest --embed              Ingest and embed");
   console.log("  ingest --force              Re-ingest even if unchanged");
@@ -96,6 +98,12 @@ export function printAddHelp(): void {
   console.log("  --version <label>           Version label like 16.x");
   console.log("  --mode docs|repo            Docs only or full repo");
   console.log("  --list-refs                 Show tags/branches and exit");
+  console.log("");
+  console.log("Web source flags:");
+  console.log("  --depth <n>                 Max crawl depth (default: 3)");
+  console.log("  --pages <n>                 Max pages to crawl (default: 500)");
+  console.log("  --force-headless            Force headless Chrome (for SPA/JS sites)");
+  console.log("  --no-code-required          Allow pages without code snippets");
 }
 
 export function printSourceHelp(): void {

@@ -19,6 +19,8 @@ export type SourceRow = {
   denied_paths: string | null;
   max_depth: number | null;
   max_pages: number | null;
+  force_headless: number | null;
+  require_code_snippets: number | null;
 };
 
 export type CrawlPageRow = {

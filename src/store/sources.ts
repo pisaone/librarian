@@ -42,12 +42,14 @@ export function addWebSource(db: Database, input: {
   maxPages?: number;
   versionLabel?: string | null;
   dbPath?: string | null;
+  forceHeadless?: boolean;
+  requireCodeSnippets?: boolean;
 }): number {
   const now = new Date().toISOString();
   const result = db
     .prepare([
-      "INSERT INTO sources (kind, name, root_url, allowed_paths, denied_paths, max_depth, max_pages, version_label, db_path, created_at, updated_at)",
-      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO sources (kind, name, root_url, allowed_paths, denied_paths, max_depth, max_pages, version_label, db_path, force_headless, require_code_snippets, created_at, updated_at)",
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     ].join(" "))
     .run(
       "web",
@@ -59,6 +61,8 @@ export function addWebSource(db: Database, input: {
       input.maxPages ?? 500,
       input.versionLabel ?? null,
       input.dbPath ?? null,
+      input.forceHeadless ? 1 : 0,
+      input.requireCodeSnippets === false ? 0 : 1,
       now,
       now,
     );
@@ -69,7 +73,7 @@ export function listSources(db: Database): SourceRow[] {
   return db
     .prepare([
       "SELECT id, kind, name, owner, repo, ref, docs_path, ingest_mode, version_label, db_path, last_sync_at, last_commit, last_etag, last_error,",
-      "root_url, allowed_paths, denied_paths, max_depth, max_pages",
+      "root_url, allowed_paths, denied_paths, max_depth, max_pages, force_headless, require_code_snippets",
       "FROM sources ORDER BY created_at ASC",
     ].join(" "))
     .all() as SourceRow[];
@@ -79,7 +83,7 @@ export function getSourceById(db: Database, id: number): SourceRow | null {
   const row = db
     .prepare([
       "SELECT id, kind, name, owner, repo, ref, docs_path, ingest_mode, version_label, db_path, last_sync_at, last_commit, last_etag, last_error,",
-      "root_url, allowed_paths, denied_paths, max_depth, max_pages",
+      "root_url, allowed_paths, denied_paths, max_depth, max_pages, force_headless, require_code_snippets",
       "FROM sources WHERE id = ?",
     ].join(" "))
     .get(id) as SourceRow | null;

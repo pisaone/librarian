@@ -28,6 +28,7 @@ export async function cmdSource(store: Store, args: string[]): Promise<void> {
       const mode = row.ingest_mode ? `mode: ${row.ingest_mode}` : "";
       const version = row.version_label ? `version: ${row.version_label}` : "";
       console.log(`${row.id}. ${row.name} (${row.kind}) ${ref} ${docs} ${mode} ${version} ${last}`);
+      if (row.root_url) console.log(`   ${row.root_url}`);
     }
     return;
   }

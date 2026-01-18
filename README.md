@@ -1,6 +1,17 @@
-# Librarian
+# Librarian (pisaone fork)
 
-Librarian fetches and searches up-to-date developer docs on your machine.  
+> [!NOTE]
+> This is a fork of [iannuttall/librarian](https://github.com/iannuttall/librarian) with specific enhancements for better documentation support.
+
+### Enhancements in this Fork:
+- **Apple Documentation Support**: Enhanced crawling for SPA/JavaScript-heavy sites like developer.apple.com.
+- **New Flags**:
+  - `--force-headless`: Forces Chrome to run in headless mode for all pages (required for Apple's web docs).
+  - `--no-code-required`: Allows ingesting pages that don't satisfy the default "contains code snippet" requirement.
+- **Improved UI**: Added `root_url` display in `librarian source list` to help distinguish similar doc sources.
+
+
+Librarian fetches and searches up-to-date developer docs on your machine.
 Use it to give AI agents real context so they stop guessing and writing bad code.
 
 Supports GitHub repos and public websites.
@@ -54,7 +65,7 @@ bun install
 bun setup
 ```
 
-If you choose the global install during setup, use `librarian` below.  
+If you choose the global install during setup, use `librarian` below.
 Otherwise use `./librarian`.
 
 ```bash
@@ -96,6 +107,15 @@ librarian add https://docs.example.com
 With options
 ```bash
 librarian add https://docs.example.com/api --depth 3 --pages 500
+```
+
+Advanced options for SPA/JavaScript-heavy sites
+```bash
+# Force headless Chrome for SPA/JavaScript-heavy sites
+librarian add https://docs.example.com --force-headless
+
+# Allow pages without code snippets (useful for general docs)
+librarian add https://docs.example.com --no-code-required
 ```
 
 Specific paths

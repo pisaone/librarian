@@ -1,6 +1,6 @@
 import { parseArgs } from "node:util";
 
-export function parseFlags(args: string[]): Record<string, string> {
+export function parseFlags(args: string[]): Record<string, string | boolean> {
   const parsed = parseArgs({
     args,
     allowPositionals: true,
@@ -37,7 +37,10 @@ export function parseFlags(args: string[]): Record<string, string> {
       "refs-filter": { type: "string" },
       "no-ingest": { type: "boolean" },
       "no-embed": { type: "boolean" },
+      "force-headless": { type: "boolean" },
+      "no-code-required": { type: "boolean" },
     },
   });
-  return parsed.values as Record<string, string>;
+  return parsed.values as Record<string, string | boolean>;
 }
+

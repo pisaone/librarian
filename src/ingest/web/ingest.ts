@@ -292,7 +292,7 @@ async function processPage(
   try {
     const result = await crawler.fetch(page.url, config);
 
-    if (!containsCodeSnippet(result.markdown)) {
+    if (config.requireCodeSnippets && !containsCodeSnippet(result.markdown)) {
       return { status: "skip", error: "No code snippets" };
     }
 
@@ -369,6 +369,8 @@ function buildCrawlConfig(source: SourceRow): CrawlConfig {
     deniedPaths,
     maxDepth: source.max_depth ?? base.maxDepth,
     maxPages: source.max_pages ?? base.maxPages,
+    forceHeadless: source.force_headless === 1,
+    requireCodeSnippets: source.require_code_snippets !== 0,
   };
 }
 

@@ -6,10 +6,12 @@ export async function cmdSourceAddWeb(store: Store, url: string, args: string[])
   const flags = parseFlags(args);
   const parsedUrl = new URL(url);
 
-  const name = flags.name ?? parsedUrl.hostname;
+  const name = typeof flags.name === "string" ? flags.name : parsedUrl.hostname;
   const maxDepth = flags.depth ? Number(flags.depth) : 3;
   const maxPages = flags.pages ? Number(flags.pages) : 500;
-  const versionLabel = flags.version ?? null;
+  const versionLabel = typeof flags.version === "string" ? flags.version : null;
+  const forceHeadless = flags["force-headless"] === true;
+  const requireCodeSnippets = flags["no-code-required"] !== true;
 
   const denyPathsRaw = flags.deny ?? "";
   const allowPathsRaw = flags.allow ?? "";
@@ -39,11 +41,15 @@ export async function cmdSourceAddWeb(store: Store, url: string, args: string[])
     maxDepth,
     maxPages,
     versionLabel,
+    forceHeadless,
+    requireCodeSnippets,
   });
 
   console.log(`Added web source ${id}: ${name}`);
   console.log(`  URL: ${url}`);
   console.log(`  Max depth: ${maxDepth}, Max pages: ${maxPages}`);
+  if (forceHeadless) console.log(`  Force headless: enabled`);
+  if (!requireCodeSnippets) console.log(`  Code snippets: not required`);
   if (allowedPaths.length) console.log(`  Allowed paths: ${allowedPaths.join(", ")}`);
   if (deniedPaths.length) console.log(`  Denied paths: ${deniedPaths.join(", ")}`);
   return id;
