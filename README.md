@@ -20,7 +20,7 @@ Supports GitHub repos and public websites.
 
 npm
 ```bash
-npm i -g @iannuttall/librarian
+npm i -g https://github.com/pisaone/librarian.git
 ```
 ```bash
 librarian setup
@@ -28,7 +28,7 @@ librarian setup
 
 bun
 ```bash
-bun add -g @iannuttall/librarian
+bun add -g https://github.com/pisaone/librarian.git
 ```
 ```bash
 librarian setup

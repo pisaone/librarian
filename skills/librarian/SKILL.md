@@ -10,9 +10,9 @@ description: Use Librarian to fetch and search up-to-date developer documentatio
 - Prereqs: Bun is required at runtime even if installed via npm/pnpm; install it if missing
 - Check package manager: `command -v bun || command -v pnpm || command -v npm`
 - Install (global): prefer npm by default, but use what exists
-  - If `bun` exists: `bun add -g @iannuttall/librarian`
-  - Else if `pnpm` exists: `pnpm add -g @iannuttall/librarian`
-  - Else: `npm i -g @iannuttall/librarian`
+  - If `bun` exists: `bun add -g https://github.com/pisaone/librarian.git`
+  - Else if `pnpm` exists: `pnpm add -g https://github.com/pisaone/librarian.git`
+  - Else: `npm i -g https://github.com/pisaone/librarian.git`
 - Install Bun (if missing): `curl -fsSL https://bun.sh/install | bash`
 - Setup: run `librarian setup` and add tokens if you need private GitHub or gated models
 - Verify: `librarian version`

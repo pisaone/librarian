@@ -1,5 +1,5 @@
 {
-  "name": "@iannuttall/librarian",
+  "name": "@pisaone/librarian",
   "version": "0.1.5",
   "description": "Local-first docs CLI",
   "type": "module",
