@@ -4,9 +4,9 @@
 > This is a fork of [iannuttall/librarian](https://github.com/iannuttall/librarian) with specific enhancements for better documentation support.
 
 ### Enhancements in this Fork:
-- **Apple Documentation Support**: Enhanced crawling for SPA/JavaScript-heavy sites like developer.apple.com.
+- **Enhanced SPA/Web Support**: Improved crawling for SPA and JavaScript-heavy documentation sites.
 - **New Flags**:
-  - `--force-headless`: Forces Chrome to run in headless mode for all pages (required for Apple's web docs).
+  - `--force-headless`: Forces Chrome to run in headless mode for all pages (required for modern web-based documentations).
   - `--no-code-required`: Allows ingesting pages that don't satisfy the default "contains code snippet" requirement.
 - **Improved UI**: Added `root_url` display in `librarian source list` to help distinguish similar doc sources.
 
