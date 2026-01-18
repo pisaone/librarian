@@ -10,6 +10,12 @@
   - `--no-code-required`: Allows ingesting pages that don't satisfy the default "contains code snippet" requirement.
 - **Improved UI**: Added `root_url` display in `librarian source list` to help distinguish similar doc sources.
 
+#### Recent Technical Updates:
+- **Database Migrations**: Integrated Kysely-based migrations to persist source-specific settings (`force_headless`, `require_code_snippets`).
+- **Crawler Optimization**: Rewrote parts of the Puppeteer integration to handle modern web documentation more reliably.
+- **CLI improvements**: Fixed broken `librarian source` command display and added URL visibility.
+- **AI Integration**: Added `AGENTS.md` and an enhanced `SKILL.md` (in `skills/librarian`) for better AI agent performance.
+
 
 Librarian fetches and searches up-to-date developer docs on your machine.
 Use it to give AI agents real context so they stop guessing and writing bad code.
