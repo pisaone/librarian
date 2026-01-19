@@ -81,6 +81,7 @@ function initDatabase(db: Database): void {
 }
 
 function ensureVecTableInternal(db: Database, dimensions: number): void {
+  // Check if table already exists with correct schema
   const tableInfo = db
     .prepare(`SELECT sql FROM sqlite_master WHERE type='table' AND name='vectors_vec'`)
     .get() as { sql: string } | null;
@@ -92,10 +93,36 @@ function ensureVecTableInternal(db: Database, dimensions: number): void {
     if (existingDims === dimensions && hasChunkId && hasCosine) return;
     db.exec("DROP TABLE IF EXISTS vectors_vec");
   }
-  db.exec(
-    `CREATE VIRTUAL TABLE vectors_vec USING vec0(chunk_id INTEGER PRIMARY KEY, embedding float[${dimensions}] distance_metric=cosine)`,
-  );
+
+  // Workaround: sqlite-vec extension fails to create shadow tables when WAL file is large.
+  // After bulk inserts (e.g., crawling 2000+ pages), the WAL file can grow to tens of MB.
+  // Creating a virtual table (vec0) in this state causes "disk I/O error" on shadow table creation.
+  // Solution: Temporarily switch to DELETE journal mode, create the table, then switch back to WAL.
+  // This forces a full checkpoint and avoids WAL-related I/O issues during virtual table creation.
+  // See: https://www.sqlite.org/wal.html
+  try {
+    // Checkpoint and switch to DELETE mode (this forces WAL to be fully written to main DB)
+    db.exec("PRAGMA wal_checkpoint(TRUNCATE)");
+    db.exec("PRAGMA journal_mode = DELETE");
+
+    // Create virtual table in DELETE mode (no WAL interference)
+    db.exec(
+      `CREATE VIRTUAL TABLE vectors_vec USING vec0(chunk_id INTEGER PRIMARY KEY, embedding float[${dimensions}] distance_metric=cosine)`,
+    );
+
+    // Switch back to WAL mode for normal operations
+    db.exec("PRAGMA journal_mode = WAL");
+  } catch (error) {
+    // Ensure we're back in WAL mode even on error
+    try {
+      db.exec("PRAGMA journal_mode = WAL");
+    } catch {
+      // Ignore
+    }
+    throw error;
+  }
 }
+
 
 function isRecoverableSqliteError(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);
